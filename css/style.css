@@ -1,0 +1,325 @@
+        body {
+            color: #f5f5f5;
+            font-family: 'Arial', sans-serif;
+            background-color: #222b22;
+            /* Fundo padrão escuro para o body */
+            position: relative;
+        }
+
+        /*body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+        }*/
+
+        .logoContainer {
+            background-color: #faebc2;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .appLogo {
+            /*max-width: 200px;
+            max-height: 200px;*/
+            width: 200px;
+            cursor: pointer;
+        }
+
+        /* Media query para tablets (telas entre 768px e 1023px) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            #appLogo {
+                width: 250px;
+                /* Tamanho intermediário para tablets */
+            }
+        }
+
+        /* Media query para desktops (telas maiores que 1024px) */
+        @media (min-width: 1024px) {
+            #appLogo {
+                width: 350px;
+                /* Tamanho maior para desktops */
+            }
+        }
+
+        .institutionalVideo {
+            max-width: 100%;
+            max-height: 400px;
+        }
+
+        /* Estilo para o vídeo */
+        #videoContainer {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        #videoContainer.visible {
+            opacity: 1;
+            display: block
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            background: rgba(34, 43, 34, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* Transição suave para a aplicação principal */
+        #mainApp {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            /*display: none;*/
+        }
+
+        #mainApp.visible {
+            opacity: 1;
+            /*display: block;*/
+        }
+
+
+
+        h1 {
+            color: #d4a017;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .form-label {
+            color: #f5f5f5;
+            font-weight: bold;
+        }
+
+        .form-control,
+        .form-select {
+            background-color: #3a4a3a;
+            color: #f5f5f5;
+            border: 1px solid #5a6a5a;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            background-color: #3a4a3a;
+            color: #f5f5f5;
+            border-color: #d4a017;
+            box-shadow: 0 0 5px rgba(212, 160, 23, 0.5);
+        }
+
+        .btn-primary {
+            background-color: #d4a017;
+            border-color: #d4a017;
+        }
+
+        .btn-primary:hover {
+            background-color: #b88c14;
+            border-color: #b88c14;
+        }
+
+        .table {
+            background-color: #2a342a;
+            color: #f5f5f5;
+        }
+
+        .table th {
+            background-color: #3a4a3a;
+            color: #d4a017;
+        }
+
+        .table td {
+            background-color: #2a342a;
+            color: #d4a017;
+        }
+
+        .sort-btn {
+            background: none;
+            border: none;
+            color: #d4a017;
+            cursor: pointer;
+        }
+
+        .modal-content {
+            background-color: #2a342a;
+            color: #f5f5f5;
+            border: 1px solid #d4a017;
+        }
+
+        .modal-header,
+        .modal-footer {
+            background-color: #3a4a3a;
+            border-color: #5a6a5a;
+        }
+
+        .modal-title {
+            color: #d4a017;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-body ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .modal-body li {
+            color: #d4a017;
+            margin-bottom: 10px;
+        }
+
+        .btn-secondary {
+            background-color: #d4a017;
+            border-color: #d4a017;
+        }
+
+        .btn-secondary:hover {
+            background-color: #b88c14;
+            border-color: #b88c14;
+        }
+
+        #dashboardModal .modal-body {
+            padding: 20px;
+        }
+
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 300px;
+            width: 100%;
+        }
+
+        #welcomeScreen {
+            /*background-image: url('../image/sobrevivencialismo.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;*/
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /*background: rgba(34, 43, 34, 0.95);*/
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: #222b22;
+            /* Fundo base para a tela de abertura */
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        #welcomeScreen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('../image/sobrevivencialismo.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.7;
+            /* Escurecimento via opacidade */
+            z-index: -1;
+            /* Fica atrás do conteúdo */
+        }
+
+        #welcomeScreen.visible {
+            opacity: 1;
+        }
+
+        #welcomeScreen h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            /* Garante que o texto fique acima do fundo */
+        }
+
+        #welcomeScreen p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #f5f5f5;
+            position: relative;
+            z-index: 1;
+        }
+
+        #welcomeScreen .btn {
+            position: relative;
+            transition: opacity 0.5s ease-in-out;
+            z-index: 1;
+        }
+
+        #languageSelector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 4;
+        }
+
+        #linksSection {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(42, 52, 42, 0.9);
+            border-radius: 10px;
+        }
+
+        #linksSection h3 {
+            color: #d4a017;
+            text-align: center;
+        }
+
+        #linksSection a {
+            color: #d4a017;
+            text-decoration: none;
+        }
+
+        #linksSection a:hover {
+            color: #b88c14;
+            text-decoration: underline;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--secondary-color);
+            color: #d4a017;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 999;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+        }
