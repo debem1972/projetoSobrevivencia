@@ -559,6 +559,7 @@ document.addEventListener('DOMContentLoaded', function () {
             mainApp.classList.remove('d-none');
             setTimeout(() => {
                 mainApp.classList.add('visible');
+                checkExpirationDates(); // Verifica itens próximos de vencer ao entrar
             }, 10); // Pequeno delay para garantir a transição de opacidade
             document.getElementById('languageSelector').classList.remove('d-none'); // Exibir seletor de idioma
         } else {
