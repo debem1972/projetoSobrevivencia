@@ -4,48 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Gerenciamento de Estoque - Sobrevivencialismo">
-    <meta name="keywords"
-        content="AppWeb, Aplicação web, Sobrevivência, Sobrevivencialismo, Estoque, Gerenciamento, PDF, Dashboard">
+    <meta name="description" content="Gerenciamento de Estoque - Sobrevivencialismo (100% Offline)">
+    <meta name="keywords" content="AppWeb, Sobrevivencialismo, Estoque, Gerenciamento, FIFO, Validade, Offline">
     <meta name="author" content="Daniel Lopes Bemfica">
     <title id="appTitle">Gerenciamento de Estoque - Sobrevivencialismo</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- jsPDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="./css/style.css">
 
+    <!-- Dependências 100% Locais (Offline-First) -->
+    <link href="./vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="./vendor/fontawesome/all.min.css" rel="stylesheet">
+    <script src="./vendor/jspdf/jspdf.umd.min.js"></script>
+    <script src="./vendor/chartjs/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
-    <!--Logo de abertura-->
+    <!-- Logo de abertura -->
     <div class="logoContainer" id="logoContainer">
-        <img src="./image/logoSurvivalManager.jpeg" id="appLogo" class="img-fluid  appLogo"
+        <img src="./image/logoSurvivalManager.jpeg" id="appLogo" class="img-fluid appLogo"
             alt="Imagem da logo de abertura da aplicação">
     </div>
+
     <!-- Tela de Abertura -->
     <div id="welcomeScreen" class="d-none">
-
-        <!-- Div para o vídeo institucional -->
-        <!--<div id="videoContainer" class="d-none position-relative z-1">
-            <video id="institutionalVideo" class="institutionalVideo">
-                <source src="./video/institutional.mp4" type="video/mp4">
-                Seu navegador não suporta o elemento de vídeo.
-            </video>
-        </div>-->
-
         <h1 id="welcomeTitle">Bem-vindo ao Gerenciamento de Estoque - Sobrevivencialismo</h1>
-        <p id="welcomeMessage">Prepare-se para gerenciar seu estoque de forma eficiente e segura!</p>
+        <p id="welcomeMessage">Prepare-se para gerenciar seu estoque de forma eficiente, segura e 100% offline!</p>
         <button class="btn btn-primary" onclick="enterApp()">Entrar</button>
     </div>
 
     <!-- Seletor de Idioma -->
     <div id="languageSelector">
-        <select id="languageSelect" onchange="changeLanguage(this.value)">
+        <select id="languageSelect" class="form-select form-select-sm" onchange="changeLanguage(this.value)">
             <option value="pt">Português</option>
             <option value="en">English</option>
             <option value="es">Español</option>
@@ -54,7 +42,10 @@
     </div>
 
     <div class="container d-none" id="mainApp">
-        <h1 id="mainTitle">Gerenciamento de Estoque - Sobrevivencialismo</h1>
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+            <h1 id="mainTitle" class="m-0">Gerenciamento de Estoque - Sobrevivencialismo</h1>
+            <span id="expirationAlertBadge" class="badge bg-danger rounded-pill d-none" title="Itens vencidos ou críticos">0</span>
+        </div>
 
         <!-- Formulário de Cadastro -->
         <form id="itemForm" class="mb-4">
@@ -99,7 +90,7 @@
                     <label for="expirationDate" class="form-label" id="expirationDateLabel">Data de Validade</label>
                     <input type="date" class="form-control" id="expirationDate">
                 </div>
-                <div class="col-md-6 d-flex align-items-end">
+                <div class="col-md-6 d-flex align-items-end mb-3">
                     <button type="submit" class="btn btn-primary w-100" id="submitButton">Cadastrar Item</button>
                 </div>
             </div>
@@ -109,40 +100,61 @@
         <!-- Filtro Dinâmico -->
         <div class="mb-4">
             <div class="row">
-                <div class="col-md-12 mb-3">
-                    <label for="dynamicFilter" class="form-label" id="dynamicFilterLabel">Pesquisa Dinâmica (ex: nome
-                        tipo data)</label>
+                <div class="col-md-12">
+                    <label for="dynamicFilter" class="form-label" id="dynamicFilterLabel">Pesquisa Dinâmica (ex: nome tipo data)</label>
                     <input type="text" class="form-control" id="dynamicFilter"
                         placeholder="Ex: Arroz alimento 2025-06-01">
                 </div>
             </div>
         </div>
 
-        <!-- Botões de Exportação/Importação, Relatório e Dashboard -->
+        <!-- Barra de Ferramentas / Ações Rápidas -->
         <div class="mb-4">
-            <div class="row">
-                <div class="col-md-3 mb-3">
-                    <button class="btn btn-primary w-100" onclick="exportToJSON()" id="exportButton">Exportar para
-                        JSON</button>
+            <div class="row g-2">
+                <div class="col-md-3 col-6">
+                    <button class="btn btn-primary w-100" onclick="exportToJSON()" id="exportButton">
+                        <i class="fa-solid fa-file-export me-1"></i> Exportar JSON
+                    </button>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <label for="importFile" class="form-label" id="importFileLabel">Importar de JSON</label>
-                    <input type="file" class="form-control" id="importFile" accept=".json">
+                <div class="col-md-3 col-6">
+                    <button class="btn btn-primary w-100" onclick="backupManual()" id="backupButton" title="Gera backup local imediato">
+                        <i class="fa-solid fa-floppy-disk me-1"></i> Fazer Backup
+                    </button>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <button class="btn btn-primary w-100" onclick="generatePDFReport()" id="pdfButton">Gerar Relatório
-                        PDF</button>
+                <div class="col-md-3 col-6">
+                    <button class="btn btn-primary w-100" onclick="generatePDFReport()" id="pdfButton">
+                        <i class="fa-solid fa-file-pdf me-1"></i> Relatório PDF
+                    </button>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <button class="btn btn-primary w-100" onclick="showDashboard()" id="dashboardButton">Abrir
-                        Dashboard</button>
+                <div class="col-md-3 col-6">
+                    <button class="btn btn-primary w-100" onclick="showDashboard()" id="dashboardButton">
+                        <i class="fa-solid fa-chart-pie me-1"></i> Dashboard
+                    </button>
+                </div>
+                <div class="col-md-3 col-6">
+                    <button class="btn btn-primary w-100" onclick="abrirCalculadora()" id="calcButton">
+                        <i class="fa-solid fa-calculator me-1"></i> Calculadora
+                    </button>
+                </div>
+                <div class="col-md-3 col-6">
+                    <button class="btn btn-primary w-100" onclick="abrirGuia()" id="guiaButton">
+                        <i class="fa-solid fa-book-skull me-1"></i> Guia Sobrevivência
+                    </button>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="input-group">
+                        <label class="input-group-text bg-secondary text-white border-secondary" for="importFile" id="importFileLabel">
+                            <i class="fa-solid fa-file-import me-1"></i> Importar JSON
+                        </label>
+                        <input type="file" class="form-control" id="importFile" accept=".json">
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Tabela de Itens -->
+        <!-- Tabela de Itens (com ordenação e status FIFO) -->
         <div class="table-responsive">
-            <table class="table table-bordered" id="itemTable">
+            <table class="table table-bordered table-hover" id="itemTable">
                 <thead>
                     <tr>
                         <th id="tableNameHeader">
@@ -153,65 +165,54 @@
                         <th id="tableTypeHeader">Tipo</th>
                         <th id="tableMassHeader">Massa/Volume</th>
                         <th id="tableExpirationHeader">
-                            Data de Validade
-                            <button class="sort-btn" onclick="sortItems('expirationDate', 'asc')">▲</button>
+                            Validade
+                            <button class="sort-btn" onclick="sortItems('expirationDate', 'asc')" title="FIFO: os que vencem antes no topo">▲</button>
                             <button class="sort-btn" onclick="sortItems('expirationDate', 'desc')">▼</button>
                         </th>
+                        <th id="tableStatusHeader">Status (FIFO)</th>
                         <th id="tableActionsHeader">Ações</th>
                     </tr>
                 </thead>
                 <tbody id="itemTableBody">
-                    <!-- Itens serão adicionados aqui via JavaScript -->
+                    <!-- Preenchido dinamicamente pelo JS -->
                 </tbody>
             </table>
         </div>
-
-        <!-- Seção de Links Úteis -->
-        <div id="linksSection">
-            <h3 id="linksTitle">Links Úteis para Sobrevivencialismo</h3>
-            <ul>
-                <li><a href="https://www.windy.com" target="_blank" id="windyLink">Windy - Previsão do Clima</a></li>
-                <li><a href="https://www.animatedknots.com" target="_blank" id="knotsLink">Animated Knots - Aprenda a
-                        Fazer Nós</a></li>
-                <li><a href="https://www.wildernesscollege.com/how-to-build-a-survival-shelter.html" target="_blank"
-                        id="shelterLink">Wilderness College - Construção de Abrigos</a></li>
-            </ul>
-        </div>
     </div>
 
-    <!-- Modal de Aviso de Validade -->
-    <div class="modal fade" id="expirationModal" tabindex="-1" aria-labelledby="expirationModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+    <!-- Modal de Aviso de Validade (Categorizado) -->
+    <div class="modal fade" id="expirationModal" tabindex="-1" aria-labelledby="expirationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="expirationModalLabel">Aviso: Itens Próximos de Vencer</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <h5 class="modal-title" id="expirationModalLabel">
+                        <i class="fa-solid fa-triangle-exclamation text-warning me-2"></i> Aviso de Validade do Estoque
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p id="expirationMessage">Os seguintes itens estão a 30 dias ou menos de vencer:</p>
-                    <ul id="expiringItemsList"></ul>
+                    <p id="expirationMessage" class="mb-3 text-light">Os itens a seguir requerem atenção imediata de consumo (FIFO):</p>
+                    <ul id="expiringItemsList" class="p-0"></ul>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        id="closeModalButton">Fechar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModalButton">Fechar</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal do Dashboard -->
+    <!-- Modal do Dashboard de Gráficos -->
     <div class="modal fade" id="dashboardModal" tabindex="-1" aria-labelledby="dashboardModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="dashboardModalLabel">Dashboard de Estoque</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <h5 class="modal-title" id="dashboardModalLabel">
+                        <i class="fa-solid fa-chart-column me-2"></i> Dashboard de Estoque
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="col-md-6">
                             <div class="chart-container">
                                 <canvas id="typeChart"></canvas>
@@ -235,27 +236,240 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        id="closeDashboardButton">Fechar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeDashboardButton">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal da Calculadora de Estoque Per Capita -->
+    <div class="modal fade" id="calculadoraModal" tabindex="-1" aria-labelledby="calculadoraModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="calculadoraModalLabel">
+                        <i class="fa-solid fa-calculator me-2"></i> Calculadora de Estimativa de Consumo Per Capita
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-secondary bg-dark text-light border-secondary mb-3">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-4">
+                                <label for="calcPessoas" class="form-label mb-1">Nº de Pessoas (adultos):</label>
+                                <input type="number" class="form-control" id="calcPessoas" value="6" min="1" max="50">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="calcDias" class="form-label mb-1">Duração (dias):</label>
+                                <input type="number" class="form-control" id="calcDias" value="7" min="1" max="365">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="calcRefeicoes" class="form-label mb-1">Refeições por dia:</label>
+                                <input type="number" class="form-control" id="calcRefeicoes" value="3" min="1" max="6">
+                            </div>
+                        </div>
+                        <div class="mt-2 text-warning small" id="calcResumo"></div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Item Essencial</th>
+                                    <th>Porção / Pessoa</th>
+                                    <th>Grupo / Refeição</th>
+                                    <th>Refeições Aplicadas</th>
+                                    <th>Total Bruto</th>
+                                    <th>Margem</th>
+                                    <th>Embalagens a Comprar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="calcResultados">
+                                <!-- Preenchido dinamicamente via calculadora.js -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="p-2 border border-secondary rounded bg-dark small text-secondary mt-2">
+                        <p class="mb-1"><strong><i class="fa-solid fa-triangle-exclamation text-warning"></i> Observações Críticas:</strong></p>
+                        <ul class="mb-0 ps-3">
+                            <li>Cozinhar arroz, miojo e aveia exige <strong>fogareiro ou gás de cozinha reserva</strong> — item crítico essencial não alimentício.</li>
+                            <li>Proteínas (sardinha e salsicha) estão projetadas para o <strong>pior caso</strong> (todas as refeições principais). Se forem alternadas, reduza a quantidade proporcionalmente.</li>
+                            <li>A água está separada em potável (4 L/pessoa/dia), higiene (10 L/pessoa/dia) e descarga (8 L/pessoa/dia).</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="gerarPdfCalculadora()">
+                        <i class="fa-solid fa-file-pdf me-1"></i> Baixar Lista de Compras (PDF)
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal do Guia de Sobrevivência (Manual das Forças Armadas) -->
+    <div class="modal fade" id="guiaModal" tabindex="-1" aria-labelledby="guiaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="guiaModalLabel">
+                        <i class="fa-solid fa-book-skull me-2"></i> Manual & Mentor de Sobrevivência (100% Offline)
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-3">
+                    <!-- Navegação das Abas -->
+                    <ul class="nav nav-tabs mb-3" id="guiaTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="tab-psico" data-bs-toggle="tab" data-bs-target="#guia-psico" type="button" role="tab">🧠 Psicologia</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="tab-orienta" data-bs-toggle="tab" data-bs-target="#guia-orienta" type="button" role="tab">🧭 Orientação</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="tab-abrigo" data-bs-toggle="tab" data-bs-target="#guia-abrigo" type="button" role="tab">🏕 Abrigo & Fogo</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="tab-agua" data-bs-toggle="tab" data-bs-target="#guia-agua" type="button" role="tab">💧 Água & Alimentos</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="tab-socorros" data-bs-toggle="tab" data-bs-target="#guia-socorros" type="button" role="tab">🩺 Primeiros Socorros</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="tab-estoque" data-bs-toggle="tab" data-bs-target="#guia-estoque" type="button" role="tab">📦 Gestão FIFO</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="tab-emergencia" data-bs-toggle="tab" data-bs-target="#guia-emergencia" type="button" role="tab">⚠️ Emergências</button>
+                        </li>
+                    </ul>
+
+                    <!-- Conteúdo das Abas -->
+                    <div class="tab-content text-light" id="guiaTabContent">
+                        <!-- Aba 1: Psicologia -->
+                        <div class="tab-pane fade show active" id="guia-psico" role="tabpanel">
+                            <div class="guia-card">
+                                <h5><span class="guia-badge">Cap. I</span> A Vontade de Sobreviver & Controle do Pânico</h5>
+                                <p>A sobrevivência é, fundamentalmente, <strong>uma questão de perspectiva mental</strong>. Em crises severas, o espírito comanda o corpo. Casos históricos demonstram que indivíduos fisicamente saudáveis sucumbiram ao desespero por perda da vontade de viver, enquanto outros sob condições extremas resistiram guiados pela determinação.</p>
+                                <ul>
+                                    <li><strong>O Medo é Saudável:</strong> O medo eleva a adrenalina e aguça os reflexos. O perigo real não é sentir medo, mas permitir que ele degenere em <em>pânico</em>, o qual consome energia vital e aniquila o raciocínio lógico.</li>
+                                    <li><strong>Regra do STOP mental:</strong> Diante de uma crise, Pare (Stop), Pense (Think), Observe (Observe) e Planeje (Plan) antes de qualquer esforço físico precipitado.</li>
+                                    <li><strong>Sobrevivência em Grupo:</strong> Estabeleça liderança clara, divida tarefas específicas (água, segurança, fogo, inventário) e mantenha a moral alta por meio da rotina e da transparência.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Aba 2: Orientação -->
+                        <div class="tab-pane fade" id="guia-orienta" role="tabpanel">
+                            <div class="guia-card">
+                                <h5><span class="guia-badge">Cap. II/III</span> Orientação com e sem Instrumentos</h5>
+                                <p>Sem energia elétrica ou sinal GPS, a navegação depende de referências naturais e da geometria solar:</p>
+                                <ul>
+                                    <li><strong>Método da Vareta e da Sombra:</strong> Finque uma vara reta de ~1 metro no chão. Marque a ponta da sombra com uma pedra. Aguarde 15 a 20 minutos e marque a nova posição da ponta da sombra. A linha que une a primeira à segunda pedra aponta exatamente do <strong>Oeste para o Leste</strong>. A perpendicular a esta linha indica o eixo Norte-Sul.</li>
+                                    <li><strong>Navegação Noturna no Hemisfério Sul:</strong> Utilize a constelação do <em>Cruzeiro do Sul</em>. Prolongue o braço maior da cruz cerca de 4,5 vezes em direção ao horizonte; o ponto perpendicular projetado na linha do solo indica o <strong>Sul geográfico</strong>.</li>
+                                    <li><strong>Uso da Bússola:</strong> Mantenha a bússola afastada de armas de fogo, fivelas, baterias e estruturas de metal para evitar declinação anômala induzida.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Aba 3: Abrigo & Fogo -->
+                        <div class="tab-pane fade" id="guia-abrigo" role="tabpanel">
+                            <div class="guia-card">
+                                <h5><span class="guia-badge">Cap. VI</span> Construção de Abrigos e Domínio do Fogo</h5>
+                                <p>O isolamento térmico contra o solo e a perda de calor por condução são mais letais do que a falta de alimentos nos primeiros dias.</p>
+                                <ul>
+                                    <li><strong>Cama Isolante:</strong> Jamais durma diretamente no chão úmido ou de pedra. Construa uma camada de no mínimo 20 a 30 cm de folhas secas, galhos ou papelão para reter o calor corpóreo.</li>
+                                    <li><strong>Estrutura de Abrigo em A:</strong> Utilize uma longarina inclinada apoiada em forquilha de árvore, com galhos laterais cobertos de folhagem espessa a favor do vento predominante.</li>
+                                    <li><strong>Fogo sem Isqueiro:</strong> Prepare o ninho de isca finíssima (algodão, cascas desfiadas, serragem seca). Utilize pedernal (faísca de ferro-cério) ou baterias de lanterna com palha de aço bem fina para ignição instantânea.</li>
+                                    <li><strong>Segurança do Fogo:</strong> Mantenha água ou terra fofa imediatamente ao lado para controle. Em abrigos fechados, garanta ventilação para evitar asfixia por monóxido de carbono.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Aba 4: Água & Alimentos -->
+                        <div class="tab-pane fade" id="guia-agua" role="tabpanel">
+                            <div class="guia-card">
+                                <h5><span class="guia-badge">Cap. VI</span> Purificação de Água & Segurança Alimentar</h5>
+                                <p>Um adulto sobrevive semanas sem comida, mas sucumbe em 3 a 5 dias sem água potável.</p>
+                                <ul>
+                                    <li><strong>Fervura:</strong> A fervura vigorosa por 3 a 5 minutos elimina 100% de patógenos biológicos (vírus, bactérias e protozoários).</li>
+                                    <li><strong>Cloração de Emergência:</strong> Na ausência de filtros, utilize água sanitária comum (hipoclorito de sódio 2% a 2,5%, sem corantes ou perfumes): <strong>2 a 4 gotas por litro de água</strong>. Aguarde 30 minutos de repouso antes de consumir.</li>
+                                    <li><strong>Filtro Decantador de Areia e Carvão:</strong> Em recipiente perfurado, sobreponha camadas de carvão ativado triturado, areia fina, areia grossa e pedriscos para remover turbidez antes da cloração.</li>
+                                    <li><strong>Plantas Comestíveis:</strong> Evite qualquer vegetal com seiva leitosa, odor amargo ou sementes parecidas com mamona/feijão silvestre, a menos que haja identificação inequívoca.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Aba 5: Primeiros Socorros -->
+                        <div class="tab-pane fade" id="guia-socorros" role="tabpanel">
+                            <div class="guia-card">
+                                <h5><span class="guia-badge">Cap. V</span> Primeiros Socorros Críticos de Emergência</h5>
+                                <p>As três causas imediatas de óbito evitável em emergências são: obstrução das vias aéreas, hemorragia grave e choque hipovolêmico.</p>
+                                <ul>
+                                    <li><strong>Hemorragias Graves:</strong> Pressão direta ininterrupta sobre a ferida com pano limpo. Em membros (braços/pernas) com sangramento arterial em jato incontrolável, aplique torniquete largo 5 a 7 cm acima do ferimento e anote o horário exato da aplicação na testa do ferido.</li>
+                                    <li><strong>Tratamento do Choque:</strong> Mantenha a vítima deitada de costas, eleve os membros inferiores em ~30 cm (salvo suspeita de trauma craniano/espinhal) e previna a hipotermia cobrindo-a com cobertor térmico.</li>
+                                    <li><strong>Fraturas:</strong> Imobilize a articulação acima e abaixo da lesão utilizando talas rígidas (madeira, papelão dobrado) acolchoadas com panos macios antes de movimentar o ferido.</li>
+                                    <li><strong>Queimaduras:</strong> Resfrie exclusivamente com água limpa corrente em temperatura ambiente. Jamais aplique óleos, pasta de dente ou café. Cubra com plástico filme estéril ou pano limpo.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Aba 6: Gestão FIFO -->
+                        <div class="tab-pane fade" id="guia-estoque" role="tabpanel">
+                            <div class="guia-card">
+                                <h5><span class="guia-badge">SOP Estoque</span> Protocolo FIFO (First In, First Out)</h5>
+                                <p>O maior risco de um depósito de emergência é a perda silenciosa de alimentos e insumos por vencimento desordenado.</p>
+                                <ul>
+                                    <li><strong>Regra Áurea FIFO:</strong> O primeiro que vence é obrigatoriamente o primeiro a ser consumido. Posicione os itens com data mais próxima sempre na frente ou em prateleiras identificadas com fita adesiva amarela/laranja.</li>
+                                    <li><strong>Rotação Ativa:</strong> Consuma os itens prestes a vencer na rotina doméstica normal e reponha imediatamente o estoque com lotes novos de validade longa.</li>
+                                    <li><strong>Inspeção Visual de Latas:</strong> Descarte sumariamente latas estufadas, enferrujadas nas emendas ou amassadas nos cantos (risco iminente de botulismo).</li>
+                                    <li><strong>Auditoria Periódica:</strong> Utilize este Survival Manager para consultar periodicamente o filtro FIFO e os avisos do modal de abertura.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Aba 7: Emergências -->
+                        <div class="tab-pane fade" id="guia-emergencia" role="tabpanel">
+                            <div class="guia-card">
+                                <h5><span class="guia-badge">Cap. XI</span> Sinais de Resgate & Procedimentos em Catástrofes</h5>
+                                <ul>
+                                    <li><strong>Sinal Universal de Socorro:</strong> Qualquer sinal repetido em <strong>três vezes</strong> (3 apitos curtos, 3 fogueiras alinhadas em triângulo, 3 flashes de lanterna) é reconhecido mundialmente como SOS.</li>
+                                    <li><strong>Sinais no Solo para Aeronaves:</strong> Construa símbolos grandes no solo (mínimo 3 metros) contrastando com a cor do terreno:
+                                        <ul>
+                                            <li><strong>V:</strong> Necessito de assistência.</li>
+                                            <li><strong>X:</strong> Incapaz de prosseguir / feridos graves.</li>
+                                            <li><strong>-> (Seta):</strong> Rumo em que o grupo partiu.</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Apagão / Falta de Energia Prolongada:</strong> Priorize o consumo dos alimentos da geladeira (primeiras 12h), depois congelador (24-48h se mantido fechado) e por fim preserve 100% dos alimentos secos do estoque.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Áudio para cliques -->
-    <audio id="clickSound" src="./sounds/click.mp3"></audio>
-    <!-- Back to Top Button -->
-    <div class="back-to-top" onclick="scrollToTop()">
-        <!--<i class="fas fa-arrow-up"></i>-->
-        <i class="fas fa-campground"></i>
+    <audio id="clickSound" src="./sound/click.mp3"></audio>
+
+    <!-- Botão de Voltar ao Topo -->
+    <div class="back-to-top" onclick="scrollToTop()" title="Voltar ao topo">
+        <i class="fa-solid fa-campground"></i>
     </div>
 
-    <!-- Bootstrap 5 JS and Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Dependências JS 100% Locais -->
+    <script src="./vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="./js/index1.js"></script>
     <script src="./js/filtroPesquisa.js"></script>
     <script src="./js/relatorioPdf.js"></script>
-
+    <script src="./js/calculadora.js"></script>
+    <script src="./js/guiaSobrevivencia.js"></script>
 </body>
 
 </html>

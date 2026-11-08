@@ -1,325 +1,408 @@
-        body {
-            color: #f5f5f5;
-            font-family: 'Arial', sans-serif;
-            background-color: #222b22;
-            /* Fundo padrão escuro para o body */
-            position: relative;
-        }
+body {
+    color: #f5f5f5;
+    font-family: 'Arial', sans-serif;
+    background-color: #222b22;
+    position: relative;
+}
 
-        /*body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1;
-        }*/
+.logoContainer {
+    background-color: #faebc2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease-in-out;
+}
 
-        .logoContainer {
-            background-color: #faebc2;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: opacity 0.5s ease-in-out;
-        }
+.appLogo {
+    width: 200px;
+    cursor: pointer;
+}
 
-        .appLogo {
-            /*max-width: 200px;
-            max-height: 200px;*/
-            width: 200px;
-            cursor: pointer;
-        }
+@media (min-width: 768px) and (max-width: 1023px) {
+    #appLogo {
+        width: 250px;
+    }
+}
 
-        /* Media query para tablets (telas entre 768px e 1023px) */
-        @media (min-width: 768px) and (max-width: 1023px) {
-            #appLogo {
-                width: 250px;
-                /* Tamanho intermediário para tablets */
-            }
-        }
+@media (min-width: 1024px) {
+    #appLogo {
+        width: 350px;
+    }
+}
 
-        /* Media query para desktops (telas maiores que 1024px) */
-        @media (min-width: 1024px) {
-            #appLogo {
-                width: 350px;
-                /* Tamanho maior para desktops */
-            }
-        }
+.institutionalVideo {
+    max-width: 100%;
+    max-height: 400px;
+}
 
-        .institutionalVideo {
-            max-width: 100%;
-            max-height: 400px;
-        }
+#videoContainer {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    display: none;
+    position: relative;
+    z-index: 1;
+}
 
-        /* Estilo para o vídeo */
-        #videoContainer {
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            display: none;
-            position: relative;
-            z-index: 1;
-        }
+#videoContainer.visible {
+    opacity: 1;
+    display: block;
+}
 
-        #videoContainer.visible {
-            opacity: 1;
-            display: block
-        }
+.container {
+    position: relative;
+    z-index: 2;
+    background: rgba(34, 43, 34, 0.95);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
 
-        .container {
-            position: relative;
-            z-index: 2;
-            background: rgba(34, 43, 34, 0.9);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            margin-top: 30px;
-            margin-bottom: 30px;
-        }
+#mainApp {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
 
-        /* Transição suave para a aplicação principal */
-        #mainApp {
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            /*display: none;*/
-        }
+#mainApp.visible {
+    opacity: 1;
+}
 
-        #mainApp.visible {
-            opacity: 1;
-            /*display: block;*/
-        }
+h1 {
+    color: #d4a017;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
 
+.form-label {
+    color: #f5f5f5;
+    font-weight: bold;
+}
 
+.form-control,
+.form-select {
+    background-color: #3a4a3a;
+    color: #f5f5f5;
+    border: 1px solid #5a6a5a;
+}
 
-        h1 {
-            color: #d4a017;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            text-align: center;
-        }
+.form-control:focus,
+.form-select:focus {
+    background-color: #3a4a3a;
+    color: #f5f5f5;
+    border-color: #d4a017;
+    box-shadow: 0 0 5px rgba(212, 160, 23, 0.5);
+}
 
-        .form-label {
-            color: #f5f5f5;
-            font-weight: bold;
-        }
+.btn-primary {
+    background-color: #d4a017;
+    border-color: #d4a017;
+    color: #1a221a;
+    font-weight: bold;
+}
 
-        .form-control,
-        .form-select {
-            background-color: #3a4a3a;
-            color: #f5f5f5;
-            border: 1px solid #5a6a5a;
-        }
+.btn-primary:hover {
+    background-color: #b88c14;
+    border-color: #b88c14;
+    color: #111;
+}
 
-        .form-control:focus,
-        .form-select:focus {
-            background-color: #3a4a3a;
-            color: #f5f5f5;
-            border-color: #d4a017;
-            box-shadow: 0 0 5px rgba(212, 160, 23, 0.5);
-        }
+.table {
+    background-color: #2a342a;
+    color: #f5f5f5;
+}
 
-        .btn-primary {
-            background-color: #d4a017;
-            border-color: #d4a017;
-        }
+.table th {
+    background-color: #3a4a3a;
+    color: #d4a017;
+    vertical-align: middle;
+}
 
-        .btn-primary:hover {
-            background-color: #b88c14;
-            border-color: #b88c14;
-        }
+.table td {
+    background-color: #2a342a;
+    color: #f5f5f5;
+    vertical-align: middle;
+}
 
-        .table {
-            background-color: #2a342a;
-            color: #f5f5f5;
-        }
+.sort-btn {
+    background: none;
+    border: none;
+    color: #d4a017;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0 2px;
+}
 
-        .table th {
-            background-color: #3a4a3a;
-            color: #d4a017;
-        }
+/* Status Badges */
+.status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+}
 
-        .table td {
-            background-color: #2a342a;
-            color: #d4a017;
-        }
+.badge-expired {
+    background-color: #dc3545;
+    color: #ffffff;
+    border: 1px solid #b02a37;
+}
 
-        .sort-btn {
-            background: none;
-            border: none;
-            color: #d4a017;
-            cursor: pointer;
-        }
+.badge-critical {
+    background-color: #fd7e14;
+    color: #ffffff;
+    border: 1px solid #d96b10;
+}
 
-        .modal-content {
-            background-color: #2a342a;
-            color: #f5f5f5;
-            border: 1px solid #d4a017;
-        }
+.badge-warning {
+    background-color: #ffc107;
+    color: #212529;
+    border: 1px solid #d39e00;
+}
 
-        .modal-header,
-        .modal-footer {
-            background-color: #3a4a3a;
-            border-color: #5a6a5a;
-        }
+.badge-ok {
+    background-color: #28a745;
+    color: #ffffff;
+    border: 1px solid #1e7e34;
+}
 
-        .modal-title {
-            color: #d4a017;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
+.badge-no-date {
+    background-color: #6c757d;
+    color: #ffffff;
+}
 
-        .modal-body ul {
-            list-style-type: none;
-            padding: 0;
-        }
+/* Realce nas linhas da tabela conforme urgência */
+tr.row-expired td {
+    background-color: rgba(220, 53, 69, 0.16) !important;
+}
 
-        .modal-body li {
-            color: #d4a017;
-            margin-bottom: 10px;
-        }
+tr.row-critical td {
+    background-color: rgba(253, 126, 20, 0.16) !important;
+}
 
-        .btn-secondary {
-            background-color: #d4a017;
-            border-color: #d4a017;
-        }
+tr.row-warning td {
+    background-color: rgba(255, 193, 7, 0.10) !important;
+}
 
-        .btn-secondary:hover {
-            background-color: #b88c14;
-            border-color: #b88c14;
-        }
+.text-expired {
+    color: #ff6b7b !important;
+}
 
-        #dashboardModal .modal-body {
-            padding: 20px;
-        }
+.text-critical {
+    color: #ffa459 !important;
+}
 
-        .chart-container {
-            position: relative;
-            margin: auto;
-            height: 300px;
-            width: 100%;
-        }
+.text-warning-custom {
+    color: #ffd24d !important;
+}
 
-        #welcomeScreen {
-            /*background-image: url('../image/sobrevivencialismo.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;*/
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /*background: rgba(34, 43, 34, 0.95);*/
-            z-index: 3;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background-color: #222b22;
-            /* Fundo base para a tela de abertura */
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
+/* Modais */
+.modal-content {
+    background-color: #2a342a;
+    color: #f5f5f5;
+    border: 1px solid #d4a017;
+}
 
-        #welcomeScreen::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('../image/sobrevivencialismo.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            opacity: 0.7;
-            /* Escurecimento via opacidade */
-            z-index: -1;
-            /* Fica atrás do conteúdo */
-        }
+.modal-header,
+.modal-footer {
+    background-color: #3a4a3a;
+    border-color: #5a6a5a;
+}
 
-        #welcomeScreen.visible {
-            opacity: 1;
-        }
+.modal-title {
+    color: #d4a017;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
 
-        #welcomeScreen h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
-            /* Garante que o texto fique acima do fundo */
-        }
+.modal-body ul {
+    list-style-type: none;
+    padding: 0;
+}
 
-        #welcomeScreen p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: #f5f5f5;
-            position: relative;
-            z-index: 1;
-        }
+.modal-body li {
+    margin-bottom: 8px;
+}
 
-        #welcomeScreen .btn {
-            position: relative;
-            transition: opacity 0.5s ease-in-out;
-            z-index: 1;
-        }
+.btn-secondary {
+    background-color: #5a6a5a;
+    border-color: #5a6a5a;
+    color: #f5f5f5;
+}
 
-        #languageSelector {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 4;
-        }
+.btn-secondary:hover {
+    background-color: #4a5a4a;
+    border-color: #4a5a4a;
+    color: #fff;
+}
 
-        #linksSection {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(42, 52, 42, 0.9);
-            border-radius: 10px;
-        }
+#dashboardModal .modal-body {
+    padding: 20px;
+}
 
-        #linksSection h3 {
-            color: #d4a017;
-            text-align: center;
-        }
+.chart-container {
+    position: relative;
+    margin: auto;
+    height: 300px;
+    width: 100%;
+}
 
-        #linksSection a {
-            color: #d4a017;
-            text-decoration: none;
-        }
+#welcomeScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #222b22;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
 
-        #linksSection a:hover {
-            color: #b88c14;
-            text-decoration: underline;
-        }
+#welcomeScreen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../image/sobrevivencialismo.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    opacity: 0.7;
+    z-index: -1;
+}
 
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: var(--secondary-color);
-            color: #d4a017;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 999;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
+#welcomeScreen.visible {
+    opacity: 1;
+}
 
-        .back-to-top.visible {
-            opacity: 1;
-        }
+#welcomeScreen h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+#welcomeScreen p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #f5f5f5;
+    position: relative;
+    z-index: 1;
+}
+
+#welcomeScreen .btn {
+    position: relative;
+    transition: opacity 0.5s ease-in-out;
+    z-index: 1;
+}
+
+#languageSelector {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 4;
+}
+
+/* Abas do Guia de Sobrevivência */
+.nav-tabs {
+    border-bottom: 2px solid #5a6a5a;
+}
+
+.nav-tabs .nav-link {
+    color: #e0e0e0;
+    background-color: #334033;
+    border: 1px solid #5a6a5a;
+    margin-right: 4px;
+    border-radius: 6px 6px 0 0;
+    font-weight: 500;
+}
+
+.nav-tabs .nav-link:hover {
+    color: #d4a017;
+    border-color: #d4a017;
+}
+
+.nav-tabs .nav-link.active {
+    color: #d4a017;
+    background-color: #222b22;
+    border-color: #d4a017 #d4a017 #222b22;
+    font-weight: bold;
+}
+
+.guia-card {
+    background-color: rgba(30, 38, 30, 0.9);
+    border: 1px solid #4a5a4a;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.guia-card h5 {
+    color: #d4a017;
+    border-bottom: 1px solid #4a5a4a;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+}
+
+.guia-badge {
+    background-color: #d4a017;
+    color: #1a221a;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-right: 6px;
+}
+
+/* Calculadora */
+.calc-obs-row td {
+    background-color: rgba(20, 25, 20, 0.7) !important;
+    padding: 4px 12px 10px 12px !important;
+    border-top: none !important;
+}
+
+.calc-obs {
+    font-size: 0.8rem;
+    color: #bbb;
+    font-style: italic;
+}
+
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #3a4a3a;
+    color: #d4a017;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 999;
+    opacity: 0;
+    transition: all 0.3s ease;
+    border: 1px solid #d4a017;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+}
