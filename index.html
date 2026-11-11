@@ -32,13 +32,16 @@
     </div>
 
     <!-- Seletor de Idioma -->
-    <div id="languageSelector">
-        <select id="languageSelect" class="form-select form-select-sm" onchange="changeLanguage(this.value)">
-            <option value="pt">Português</option>
-            <option value="en">English</option>
-            <option value="es">Español</option>
-            <option value="zh">中文 (Mandarim)</option>
-        </select>
+    <div id="languageSelector" class="dropdown">
+        <button class="btn btn-sm btn-language-toggle dropdown-toggle" type="button" id="languageDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" title="Mudar Idioma">
+            <i class="fa-solid fa-globe me-1"></i><span id="currentLangLabel">PT</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="languageDropdownBtn">
+            <li><a class="dropdown-item active" href="javascript:void(0)" onclick="selectLanguage('pt')" data-lang="pt">🇧🇷 Português</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectLanguage('en')" data-lang="en">🇺🇸 English</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectLanguage('es')" data-lang="es">🇪🇸 Español</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0)" onclick="selectLanguage('zh')" data-lang="zh">🇨🇳 中文 (Mandarim)</a></li>
+        </ul>
     </div>
 
     <div class="container d-none" id="mainApp">

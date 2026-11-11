@@ -912,10 +912,36 @@ const translations = {
     }
 };
 
+const langLabels = {
+    pt: 'PT',
+    en: 'EN',
+    es: 'ES',
+    zh: 'ZH'
+};
+
 let currentLang = 'pt';
+
+window.selectLanguage = function (lang) {
+    playClickSound();
+    changeLanguage(lang);
+};
 
 function changeLanguage(lang) {
     currentLang = lang;
+    
+    // Atualiza a label do botão de idioma e a seleção ativa
+    const labelSpan = document.getElementById('currentLangLabel');
+    if (labelSpan) {
+        labelSpan.textContent = langLabels[lang] || lang.toUpperCase();
+    }
+    document.querySelectorAll('#languageSelector .dropdown-item').forEach(item => {
+        if (item.getAttribute('data-lang') === lang) {
+            item.classList.add('active');
+        } else {
+            item.classList.remove('active');
+        }
+    });
+
     document.getElementById('appTitle').textContent = translations[lang].appTitle;
     document.getElementById('welcomeTitle').textContent = translations[lang].welcomeTitle;
     document.getElementById('welcomeMessage').textContent = translations[lang].welcomeMessage;
