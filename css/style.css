@@ -481,3 +481,83 @@ tr.row-warning td {
 .back-to-top.visible {
     opacity: 1;
 }
+
+/* Grade de Botões de Ações Rápidas (3x2 Simétrico) */
+.action-buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+}
+
+.action-split-pair {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+}
+
+.action-split-pair .btn-action-grid {
+    flex: 1;
+    width: 50%;
+}
+
+.btn-action-grid {
+    height: 48px;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.92rem;
+    font-weight: bold;
+    padding: 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-action-grid i {
+    font-size: 1.05rem;
+}
+
+/* Tooltips Táticos */
+.tooltip .tooltip-inner {
+    background-color: #222b22;
+    color: #d4a017;
+    border: 1px solid #d4a017;
+    font-size: 0.8rem;
+    font-weight: bold;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+    padding: 6px 12px;
+    border-radius: 5px;
+}
+
+.tooltip.bs-tooltip-top .tooltip-arrow::before {
+    border-top-color: #d4a017;
+}
+
+.tooltip.bs-tooltip-bottom .tooltip-arrow::before {
+    border-bottom-color: #d4a017;
+}
+
+/* Ajustes finos para Mobile */
+@media (max-width: 576px) {
+    .action-buttons-grid,
+    .action-split-pair {
+        gap: 8px;
+    }
+
+    .btn-action-grid {
+        height: 46px;
+        min-height: 46px;
+        font-size: 0.78rem;
+        padding: 0 4px;
+    }
+
+    .btn-action-grid i {
+        font-size: 0.92rem;
+    }
+}

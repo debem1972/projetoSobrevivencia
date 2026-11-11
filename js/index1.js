@@ -649,8 +649,23 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 10);
             document.getElementById('languageSelector').classList.remove('d-none');
         }
+        initTooltips();
     };
+
+    initTooltips();
 });
+
+// ---- Tooltips do Bootstrap ----
+function initTooltips() {
+    if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+            const inst = bootstrap.Tooltip.getInstance(tooltipTriggerEl);
+            if (inst) inst.dispose();
+            new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    }
+}
 
 // ---- Scroll to Top ----
 
@@ -703,6 +718,12 @@ const translations = {
         importFileLabel: 'Importar de JSON',
         pdfButton: 'Relatório PDF',
         dashboardButton: 'Dashboard',
+        backupButton: 'Fazer Backup',
+        calcButton: 'Calculadora',
+        guiaButton: 'Guia Sobrevivência',
+        exportTooltip: 'Exportar para JSON',
+        importTooltip: 'Importar de JSON',
+        backupTooltip: 'Salvar backup JSON local agora',
         tableNameHeader: 'Nome',
         tableTypeHeader: 'Tipo',
         tableMassHeader: 'Massa/Volume',
@@ -763,6 +784,12 @@ const translations = {
         importFileLabel: 'Import from JSON',
         pdfButton: 'PDF Report',
         dashboardButton: 'Dashboard',
+        backupButton: 'Backup Now',
+        calcButton: 'Calculator',
+        guiaButton: 'Survival Guide',
+        exportTooltip: 'Export to JSON',
+        importTooltip: 'Import from JSON',
+        backupTooltip: 'Save local JSON backup now',
         tableNameHeader: 'Name',
         tableTypeHeader: 'Type',
         tableMassHeader: 'Mass/Volume',
@@ -823,6 +850,12 @@ const translations = {
         importFileLabel: 'Importar desde JSON',
         pdfButton: 'Informe PDF',
         dashboardButton: 'Panel',
+        backupButton: 'Hacer Copia',
+        calcButton: 'Calculadora',
+        guiaButton: 'Guía Supervivencia',
+        exportTooltip: 'Exportar a JSON',
+        importTooltip: 'Importar de JSON',
+        backupTooltip: 'Guardar copia de seguridad local JSON ahora',
         tableNameHeader: 'Nombre',
         tableTypeHeader: 'Tipo',
         tableMassHeader: 'Masa/Volumen',
@@ -883,6 +916,12 @@ const translations = {
         importFileLabel: '从 JSON 导入',
         pdfButton: 'PDF 报告',
         dashboardButton: '仪表板',
+        backupButton: '立即备份',
+        calcButton: '计算器',
+        guiaButton: '生存指南',
+        exportTooltip: '导出为 JSON',
+        importTooltip: '从 JSON 导入',
+        backupTooltip: '立即保存本地 JSON 备份',
         tableNameHeader: '名称',
         tableTypeHeader: '类型',
         tableMassHeader: '质量/体积',
@@ -965,10 +1004,42 @@ function changeLanguage(lang) {
     document.getElementById('submitButton').textContent = translations[lang].addItem;
     document.getElementById('dynamicFilterLabel').textContent = translations[lang].dynamicFilterLabel;
     document.getElementById('dynamicFilter').placeholder = translations[lang].dynamicFilterPlaceholder;
-    document.getElementById('exportButton').textContent = translations[lang].exportButton;
-    document.getElementById('importFileLabel').textContent = translations[lang].importFileLabel;
-    document.getElementById('pdfButton').textContent = translations[lang].pdfButton;
-    document.getElementById('dashboardButton').textContent = translations[lang].dashboardButton;
+    // Atualiza labels dos botões de ações rápidas simétricos
+    const backupBtnLbl = document.getElementById('backupButtonLabel');
+    if (backupBtnLbl) backupBtnLbl.textContent = translations[lang].backupButton;
+
+    const pdfBtnLbl = document.getElementById('pdfButtonLabel');
+    if (pdfBtnLbl) pdfBtnLbl.textContent = translations[lang].pdfButton;
+
+    const dashBtnLbl = document.getElementById('dashboardButtonLabel');
+    if (dashBtnLbl) dashBtnLbl.textContent = translations[lang].dashboardButton;
+
+    const calcBtnLbl = document.getElementById('calcButtonLabel');
+    if (calcBtnLbl) calcBtnLbl.textContent = translations[lang].calcButton;
+
+    const guiaBtnLbl = document.getElementById('guiaButtonLabel');
+    if (guiaBtnLbl) guiaBtnLbl.textContent = translations[lang].guiaButton;
+
+    // Atualiza tooltips
+    const exportBtn = document.getElementById('exportButton');
+    if (exportBtn) {
+        exportBtn.setAttribute('title', translations[lang].exportTooltip);
+        exportBtn.setAttribute('data-bs-original-title', translations[lang].exportTooltip);
+    }
+
+    const importTriggerBtn = document.getElementById('importTriggerButton');
+    if (importTriggerBtn) {
+        importTriggerBtn.setAttribute('title', translations[lang].importTooltip);
+        importTriggerBtn.setAttribute('data-bs-original-title', translations[lang].importTooltip);
+    }
+
+    const backupBtn = document.getElementById('backupButton');
+    if (backupBtn) {
+        backupBtn.setAttribute('title', translations[lang].backupTooltip);
+        backupBtn.setAttribute('data-bs-original-title', translations[lang].backupTooltip);
+    }
+
+    initTooltips();
     document.getElementById('tableNameHeader').childNodes[0].textContent = translations[lang].tableNameHeader;
     document.getElementById('tableTypeHeader').textContent = translations[lang].tableTypeHeader;
     document.getElementById('tableMassHeader').textContent = translations[lang].tableMassHeader;

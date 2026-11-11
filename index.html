@@ -112,47 +112,50 @@
         </div>
 
         <!-- Barra de Ferramentas / Ações Rápidas -->
+        <!-- Barra de Ações Rápidas (Grid Simétrico 3x2) -->
         <div class="mb-4">
-            <div class="row g-2">
-                <div class="col-md-3 col-6">
-                    <button class="btn btn-primary w-100" onclick="exportToJSON()" id="exportButton">
-                        <i class="fa-solid fa-file-export me-1"></i> Exportar JSON
+            <div class="action-buttons-grid">
+                <!-- Linha 1, Coluna 1: Par Exportar / Importar com Tooltips -->
+                <div class="action-split-pair">
+                    <button class="btn btn-primary btn-action-grid" onclick="exportToJSON()" id="exportButton"
+                        data-bs-toggle="tooltip" data-bs-placement="top" title="Exportar para JSON">
+                        <i class="fa-solid fa-file-export"></i>
+                    </button>
+                    <button class="btn btn-primary btn-action-grid" onclick="document.getElementById('importFile').click()" id="importTriggerButton"
+                        data-bs-toggle="tooltip" data-bs-placement="top" title="Importar de JSON">
+                        <i class="fa-solid fa-file-import"></i>
                     </button>
                 </div>
-                <div class="col-md-3 col-6">
-                    <button class="btn btn-primary w-100" onclick="backupManual()" id="backupButton" title="Gera backup local imediato">
-                        <i class="fa-solid fa-floppy-disk me-1"></i> Fazer Backup
-                    </button>
-                </div>
-                <div class="col-md-3 col-6">
-                    <button class="btn btn-primary w-100" onclick="generatePDFReport()" id="pdfButton">
-                        <i class="fa-solid fa-file-pdf me-1"></i> Relatório PDF
-                    </button>
-                </div>
-                <div class="col-md-3 col-6">
-                    <button class="btn btn-primary w-100" onclick="showDashboard()" id="dashboardButton">
-                        <i class="fa-solid fa-chart-pie me-1"></i> Dashboard
-                    </button>
-                </div>
-                <div class="col-md-3 col-6">
-                    <button class="btn btn-primary w-100" onclick="abrirCalculadora()" id="calcButton">
-                        <i class="fa-solid fa-calculator me-1"></i> Calculadora
-                    </button>
-                </div>
-                <div class="col-md-3 col-6">
-                    <button class="btn btn-primary w-100" onclick="abrirGuia()" id="guiaButton">
-                        <i class="fa-solid fa-book-skull me-1"></i> Guia Sobrevivência
-                    </button>
-                </div>
-                <div class="col-md-6 col-12">
-                    <div class="input-group">
-                        <label class="input-group-text bg-secondary text-white border-secondary" for="importFile" id="importFileLabel">
-                            <i class="fa-solid fa-file-import me-1"></i> Importar JSON
-                        </label>
-                        <input type="file" class="form-control" id="importFile" accept=".json">
-                    </div>
-                </div>
+
+                <!-- Linha 1, Coluna 2: Fazer Backup -->
+                <button class="btn btn-primary btn-action-grid" onclick="backupManual()" id="backupButton"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Salvar backup JSON local agora">
+                    <i class="fa-solid fa-floppy-disk me-1"></i> <span id="backupButtonLabel">Fazer Backup</span>
+                </button>
+
+                <!-- Linha 2, Coluna 1: Relatório PDF -->
+                <button class="btn btn-primary btn-action-grid" onclick="generatePDFReport()" id="pdfButton">
+                    <i class="fa-solid fa-file-pdf me-1"></i> <span id="pdfButtonLabel">Relatório PDF</span>
+                </button>
+
+                <!-- Linha 2, Coluna 2: Dashboard -->
+                <button class="btn btn-primary btn-action-grid" onclick="showDashboard()" id="dashboardButton">
+                    <i class="fa-solid fa-chart-pie me-1"></i> <span id="dashboardButtonLabel">Dashboard</span>
+                </button>
+
+                <!-- Linha 3, Coluna 1: Calculadora -->
+                <button class="btn btn-primary btn-action-grid" onclick="abrirCalculadora()" id="calcButton">
+                    <i class="fa-solid fa-calculator me-1"></i> <span id="calcButtonLabel">Calculadora</span>
+                </button>
+
+                <!-- Linha 3, Coluna 2: Guia Sobrevivência -->
+                <button class="btn btn-primary btn-action-grid" onclick="abrirGuia()" id="guiaButton">
+                    <i class="fa-solid fa-book-skull me-1"></i> <span id="guiaButtonLabel">Guia Sobrevivência</span>
+                </button>
             </div>
+
+            <!-- Input de arquivo invisível acionado pelo botão de importar -->
+            <input type="file" id="importFile" accept=".json" class="d-none">
         </div>
 
         <!-- Tabela de Itens (com ordenação e status FIFO) -->
