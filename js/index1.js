@@ -354,14 +354,20 @@ window.applyFiltersAndSort = function () {
             '<td>' + (translations[currentLang][item.type] || item.type) + '</td>' +
             '<td>' + escapeHtml(massCell) + '</td>' +
             '<td>' + dateCellContent + '</td>' +
-            '<td><span class="status-badge ' + st.cssClass + '">' + st.label + '</span></td>' +
-            '<td>' +
-            '<button class="btn btn-sm btn-warning me-1" onclick="editItem(' + item.id + ')">' + translations[currentLang].edit + '</button>' +
-            '<button class="btn btn-sm btn-danger" onclick="deleteItem(' + item.id + ')">' + translations[currentLang].delete + '</button>' +
+            '<td class="text-center align-middle">' +
+            '<div class="table-actions-stack">' +
+            '<button class="btn btn-sm btn-warning btn-table-action" onclick="editItem(' + item.id + ')" title="' + (translations[currentLang].edit || 'Editar') + '" aria-label="' + (translations[currentLang].edit || 'Editar') + '" data-bs-toggle="tooltip" data-bs-placement="left">' +
+            '<i class="fa-solid fa-pen"></i>' +
+            '</button>' +
+            '<button class="btn btn-sm btn-danger btn-table-action" onclick="deleteItem(' + item.id + ')" title="' + (translations[currentLang].delete || 'Excluir') + '" aria-label="' + (translations[currentLang].delete || 'Excluir') + '" data-bs-toggle="tooltip" data-bs-placement="left">' +
+            '<i class="fa-solid fa-trash-can"></i>' +
+            '</button>' +
+            '</div>' +
             '</td>';
 
         tableBody.appendChild(row);
     });
+    initTooltips();
 };
 
 function escapeHtml(str) {
