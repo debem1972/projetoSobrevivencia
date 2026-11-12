@@ -139,42 +139,80 @@ h1 {
     padding: 0 2px;
 }
 
-/* Botões de Ação na Tabela (Pilha Vertical Compacta) */
-.table-actions-stack {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    margin: 0 auto;
+/* Botões de Ação na Tabela - Responsivo (Desktop vs Mobile/Tablet) */
+.table-actions-cell {
+    text-align: center;
+    vertical-align: middle;
 }
 
-.btn-table-action {
-    width: 36px;
-    height: 30px;
-    min-width: 36px;
-    display: inline-flex;
-    align-items: center;
+/* Padrão Desktop (>= 768px): Horizontal com Texto */
+.table-actions-group {
+    display: flex;
+    flex-direction: row;
     justify-content: center;
-    padding: 0;
-    border-radius: 6px;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.btn-action-item {
     font-size: 0.85rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    font-weight: 500;
     transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.btn-table-action:hover,
-.btn-table-action:focus {
-    transform: scale(1.08);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+.btn-action-item:hover,
+.btn-action-item:focus {
+    transform: scale(1.05);
 }
 
-.btn-table-action:active {
-    transform: scale(0.95);
+.btn-action-item .action-btn-text {
+    display: inline;
 }
 
-.btn-table-action i {
-    font-size: 0.88rem;
+/* Mobile e Tablets (< 768px): Vertical com Apenas Ícones */
+@media (max-width: 767.98px) {
+    .table-actions-cell {
+        width: 55px;
+        min-width: 55px;
+    }
+
+    .table-actions-group {
+        flex-direction: column;
+        gap: 6px;
+        margin: 0 auto;
+    }
+
+    .btn-action-item {
+        width: 36px;
+        height: 30px;
+        min-width: 36px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    }
+
+    .btn-action-item:hover,
+    .btn-action-item:focus {
+        transform: scale(1.08);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    .btn-action-item:active {
+        transform: scale(0.95);
+    }
+
+    .btn-action-item .action-btn-text {
+        display: none !important;
+    }
+
+    .btn-action-item i {
+        margin: 0 !important;
+        font-size: 0.88rem;
+    }
 }
 
 /* Status Badges */

@@ -354,13 +354,14 @@ window.applyFiltersAndSort = function () {
             '<td>' + (translations[currentLang][item.type] || item.type) + '</td>' +
             '<td>' + escapeHtml(massCell) + '</td>' +
             '<td>' + dateCellContent + '</td>' +
-            '<td class="text-center align-middle">' +
-            '<div class="table-actions-stack">' +
-            '<button class="btn btn-sm btn-warning btn-table-action" onclick="editItem(' + item.id + ')" title="' + (translations[currentLang].edit || 'Editar') + '" aria-label="' + (translations[currentLang].edit || 'Editar') + '" data-bs-toggle="tooltip" data-bs-placement="left">' +
-            '<i class="fa-solid fa-pen"></i>' +
+            '<td><span class="status-badge ' + st.cssClass + '">' + st.label + '</span></td>' +
+            '<td class="table-actions-cell">' +
+            '<div class="table-actions-group">' +
+            '<button class="btn btn-sm btn-warning btn-action-item" onclick="editItem(' + item.id + ')" title="' + (translations[currentLang].edit || 'Editar') + '" aria-label="' + (translations[currentLang].edit || 'Editar') + '" data-bs-toggle="tooltip">' +
+            '<i class="fa-solid fa-pen me-1"></i><span class="action-btn-text">' + (translations[currentLang].edit || 'Editar') + '</span>' +
             '</button>' +
-            '<button class="btn btn-sm btn-danger btn-table-action" onclick="deleteItem(' + item.id + ')" title="' + (translations[currentLang].delete || 'Excluir') + '" aria-label="' + (translations[currentLang].delete || 'Excluir') + '" data-bs-toggle="tooltip" data-bs-placement="left">' +
-            '<i class="fa-solid fa-trash-can"></i>' +
+            '<button class="btn btn-sm btn-danger btn-action-item" onclick="deleteItem(' + item.id + ')" title="' + (translations[currentLang].delete || 'Excluir') + '" aria-label="' + (translations[currentLang].delete || 'Excluir') + '" data-bs-toggle="tooltip">' +
+            '<i class="fa-solid fa-trash-can me-1"></i><span class="action-btn-text">' + (translations[currentLang].delete || 'Excluir') + '</span>' +
             '</button>' +
             '</div>' +
             '</td>';
